@@ -1,0 +1,16 @@
+language: java
+sudo: false
+
+jdk:
+  - openjdk8
+
+script: 
+  mvn clean verify test
+  
+before_deploy:
+  - "mvn -DskipTests package"
+  - export RESTING=$(ls target/resting-*.jar)
+
+deploy:
+  provider: releases
+  file: "${RESTING}"
