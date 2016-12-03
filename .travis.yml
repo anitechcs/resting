@@ -6,12 +6,8 @@ jdk:
   - oraclejdk8
 
 script: 
-  mvn clean install verify test
+  mvn clean verify
   
 before_deploy:
   - "mvn -DskipTests package"
   - export RESTING=$(ls target/resting-*.jar)
-
-deploy:
-  provider: releases
-  file: "${RESTING}"
