@@ -1,2 +1,2 @@
 # resting
-REST API testing library
+> Easy REST API testing library
