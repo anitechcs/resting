@@ -1,11 +1,12 @@
 language: java
-sudo: false
+
+sudo: required
 
 jdk:
-  - openjdk8
+  - oraclejdk8
 
 script: 
-  mvn clean verify test
+  mvn clean install verify test
   
 before_deploy:
   - "mvn -DskipTests package"
