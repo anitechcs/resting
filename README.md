@@ -2,7 +2,7 @@
 
 > Easy REST API testing library
 
-### What is Resting??
+## What is Resting??
 > REST + TESTING = RESTING
 
 Resting is a simple and light weight library for testing REST API. The main features are:
@@ -16,7 +16,7 @@ Resting is a simple and light weight library for testing REST API. The main feat
    * BDD Style Fluent API
 
 
-### Installation:
+## Installation:
 
 `Resting` is a java library, So you can download the resting-1.x.x.jar and directly consume in your application however we are recommending to use a build system like Maven or Gradle. Please refer to below sections based on your build system: 
 
@@ -49,7 +49,7 @@ Resting is a simple and light weight library for testing REST API. The main feat
 	- json-simple
 	
 
-### Getting Started:
+## Getting Started:
 
 Once you have resting in your classpath (Refer #Installation section), you are ready to take it for a spin. You need to get a handle to `Resting` instance first like below:
 
@@ -73,7 +73,7 @@ config.setConnectTimeout(5000);
 config.setSocketTimeout(5000);
 config.setHeaders(headers);
 ```
-##GET
+### GET
 ```
 // GET Without Extra Config
 HttpResponse res = resting.GET("/posts/1");
@@ -81,7 +81,7 @@ HttpResponse res = resting.GET("/posts/1");
 // GET With Extra Config
 HttpResponse res = resting.GET("/posts/1", config);
 ```
-##POST
+### POST
 ```	
 // POST Without Extra Config
 HttpResponse res = resting.POST("/posts", inputs);
@@ -89,7 +89,7 @@ HttpResponse res = resting.POST("/posts", inputs);
 // POST With Extra Config	
 HttpResponse res = resting.POST("/posts", inputs, config);
 ```
-##PUT
+### PUT
 ```
 // PUT Without Extra Config
 HttpResponse res = resting.PUT("/posts/1", inputs);
@@ -97,7 +97,7 @@ HttpResponse res = resting.PUT("/posts/1", inputs);
 // PUT With Extra Config	
 HttpResponse res = resting.PUT("/posts/1", inputs, config);
 ```
-#DELETE
+### DELETE
 ```
 // DELETE Without Extra Config
 HttpResponse res = resting.DELETE("/posts/1");
