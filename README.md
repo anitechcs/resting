@@ -21,6 +21,7 @@ Resting is a simple and light weight library for testing REST API. The main feat
 `Resting` is a java library, So you can download the resting-1.x.x.jar and directly consume in your application however we are recommending to use a build system like Maven or Gradle. Please refer to below sections based on your build system: 
 
 * Maven
+
 	You can add below dependency to your pom.xml
 	
 	```
