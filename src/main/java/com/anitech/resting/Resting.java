@@ -6,11 +6,16 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import com.anitech.resting.config.RestingRequestConfig;
 import com.anitech.resting.exception.RestingException;
@@ -32,7 +37,7 @@ public class Resting {
 	
 	private static boolean enableMetrics = false;
 	
-	private static CloseableHttpClient httpClient = HttpClients.createDefault();
+	private static CloseableHttpClient httpClient;
 	
 	
 	// Getters and Setters
@@ -73,14 +78,36 @@ public class Resting {
 		// Exists only to defeat instantiation.
 	}
 	
+	/**
+	 * Fluent API to configure Resting instance with base URI
+	 * 
+	 * @param baseURI
+	 * @return Resting
+	 */
 	public Resting baseURI(String baseURI) {
 		Resting.baseURI = baseURI;
 		return instance;
 	}
-
 	
+	/**
+	 * Fluent API to configure Resting instance Metrics enabled
+	 * 
+	 * @return Resting
+	 */
+	public Resting enableMetrics() {
+		setEnableMetrics(true);
+		return instance;
+	}
+
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @return
+	 * @throws RestingException
+	 */
 	public HttpResponse GET(String endpointUrl) throws RestingException {
-		logger.info("GET!");
+		logger.debug("Inside GET!");
+		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
 		return GET(endpointUrl, config);
 	}
@@ -94,7 +121,8 @@ public class Resting {
 	 * @throws RestingException
 	 */
 	public HttpResponse GET(String endpointUrl, RestingRequestConfig config) throws RestingException {
-		logger.info("GET!");
+		logger.debug("Inside GET!");
+		httpClient = HttpClients.createDefault();
 		try {
 			RequestConfig requestConfig = RequestConfig.custom()
 				    .setSocketTimeout(config.getSocketTimeout())
@@ -115,29 +143,134 @@ public class Resting {
 		}
 	}
 	
-	public void POST(String endpointUrl, Map<Object, Object> inputParams) {
-		logger.info("POST!");
-		
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @param inputParams
+	 * @return
+	 * @throws RestingException
+	 */
+	public HttpResponse POST(String endpointUrl, Map<Object, Object> inputParams) throws RestingException {
+		logger.debug("Inside POST!");
+		httpClient = HttpClients.createDefault();
+		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
+		return POST(endpointUrl, inputParams, config);
+	}
+	
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @param inputParams
+	 * @param config
+	 * @return
+	 * @throws RestingException
+	 */
+	public HttpResponse POST(String endpointUrl, Map<Object, Object> inputParams, RestingRequestConfig config) throws RestingException {
+		logger.debug("Inside POST!");
+		httpClient = HttpClients.createDefault();
+		try {
+			RequestConfig requestConfig = RequestConfig.custom()
+				    .setSocketTimeout(config.getSocketTimeout())
+				    .setConnectTimeout(config.getConnectTimeout())
+				    .build();
+
+			HttpPost post = new HttpPost(baseURI + endpointUrl);
+			post.setConfig(requestConfig);
+			post.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
+			StringEntity entity = new StringEntity(new JSONObject(inputParams).toJSONString());
+			post.setEntity(entity);
+			
+			return httpClient.execute(post);
+		} catch (ClientProtocolException cpe) {
+			cpe.printStackTrace();
+			throw new RestingException(cpe);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			throw new RestingException(ioe);
+		} 
 	}
 
-	public void PUT(String endpointUrl, Map<Object, Object> inputParams) {
-		logger.info("PUT!");
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @param inputParams
+	 * @throws RestingException 
+	 */
+	public HttpResponse PUT(String endpointUrl, Map<Object, Object> inputParams) throws RestingException {
+		logger.debug("Inside PUT!");
+		httpClient = HttpClients.createDefault();
+		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
+		return PUT(endpointUrl, inputParams, config);
+	}
+	
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @param inputParams
+	 * @throws RestingException 
+	 */
+	public HttpResponse PUT(String endpointUrl, Map<Object, Object> inputParams, RestingRequestConfig config) throws RestingException {
+		logger.debug("Inside PUT!");
+		httpClient = HttpClients.createDefault();
+		try {
+			RequestConfig requestConfig = RequestConfig.custom()
+				    .setSocketTimeout(config.getSocketTimeout())
+				    .setConnectTimeout(config.getConnectTimeout())
+				    .build();
+
+			HttpPut put = new HttpPut(baseURI + endpointUrl);
+			put.setConfig(requestConfig);
+			StringEntity entity = new StringEntity(new JSONObject(inputParams).toJSONString());
+			put.setEntity(entity);
+			
+			return httpClient.execute(put);
+		} catch (ClientProtocolException cpe) {
+			cpe.printStackTrace();
+			throw new RestingException(cpe);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			throw new RestingException(ioe);
+		} 
 	}
 
-	public void DELETE(String endpointUrl) {
-		logger.info("DELETE!");
+	/**
+	 * 
+	 * @param endpointUrl
+	 * @throws RestingException 
+	 */
+	public HttpResponse DELETE(String endpointUrl) throws RestingException {
+		logger.debug("Inside DELETE!");
+		httpClient = HttpClients.createDefault();
+		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
+		return DELETE(endpointUrl, config);
 	}
 	
-	public void HEAD(String endpointUrl) {
-		logger.info("HEAD!");
-	}
-	
-	public void TRACE(String endpointUrl) {
-		logger.info("TRACE!");
-	}
-	
-	public void OPTIONS(String endpointUrl) {
-		logger.info("OPTIONS!");
+	/**
+	 * @param endpointUrl
+	 * @param config
+	 * @throws RestingException 
+	 */
+	public HttpResponse DELETE(String endpointUrl, RestingRequestConfig config) throws RestingException {
+		logger.debug("Inside DELETE!");
+		httpClient = HttpClients.createDefault();
+		try {
+			RequestConfig requestConfig = RequestConfig.custom()
+				    .setSocketTimeout(config.getSocketTimeout())
+				    .setConnectTimeout(config.getConnectTimeout())
+				    .build();
+
+			HttpDelete delete = new HttpDelete(baseURI + endpointUrl);
+			delete.setConfig(requestConfig);
+			delete.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
+			
+			return httpClient.execute(delete);
+		} catch (ClientProtocolException cpe) {
+			cpe.printStackTrace();
+			throw new RestingException(cpe);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			throw new RestingException(ioe);
+		} 
 	}
 	
 }
