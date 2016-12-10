@@ -1,5 +1,6 @@
 package com.anitech.resting.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.Header;
@@ -20,12 +21,18 @@ public class RestingUtil {
 	private static final Logger logger = LogManager.getLogger(RestingUtil.class);
 
 	/**
-	 * Returns default RestingRequestConfig object 
+	 * Returns default RestingRequestConfig object, Default content type is application/json
 	 * 
 	 * @return RestingRequestConfig
 	 */
 	public static RestingRequestConfig getDefaultRequestConfig() {
-		return new RestingRequestConfig();
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-Type", "application/json");
+		
+		RestingRequestConfig reqConfig = new RestingRequestConfig();
+		reqConfig.setHeaders(headers);
+		
+		return reqConfig;
 	}
 	
 	/**
@@ -39,7 +46,7 @@ public class RestingUtil {
 		int index = 0;
 		for (String key: headers.keySet()) {
 			String value = headers.get(key);
-			logger.info(index+" - Header Key: " + key + ": Value: " + value);
+			logger.debug(index+" - Header Key: " + key + ": Value: " + value);
 			headerArr[index] = new BasicHeader(key, value);
 			++index;
 		}
