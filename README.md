@@ -5,7 +5,7 @@
 ## What is Resting??
 > REST + TESTING = RESTING
 
-Resting is a simple and light weight library for testing REST API. The main features are:
+`Resting` is a simple and light weight library for accessing REST API with little fuss. You can use `Resting` as a REST client for consuming REST services in your application or You can use it for end-to-end testing of your REST services. The main features are:
 
    * Simple and Easy to use
    * Fluent API

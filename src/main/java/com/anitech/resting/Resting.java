@@ -1,7 +1,6 @@
 package com.anitech.resting;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -10,15 +9,14 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import com.anitech.resting.config.RestingRequestConfig;
 import com.anitech.resting.exception.RestingException;
+import com.anitech.resting.service.RequestDataMassager;
 import com.anitech.resting.util.RestingUtil;
 
 /**
@@ -150,7 +148,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse POST(String endpointUrl, Map<Object, Object> inputParams) throws RestingException {
+	public HttpResponse POST(String endpointUrl, Object inputParams) throws RestingException {
 		logger.debug("Inside POST!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -165,7 +163,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse POST(String endpointUrl, Map<Object, Object> inputParams, RestingRequestConfig config) throws RestingException {
+	public HttpResponse POST(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside POST!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -177,8 +175,7 @@ public class Resting {
 			HttpPost post = new HttpPost(baseURI + endpointUrl);
 			post.setConfig(requestConfig);
 			post.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
-			StringEntity entity = new StringEntity(new JSONObject(inputParams).toJSONString());
-			post.setEntity(entity);
+			post.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
 			
 			return httpClient.execute(post);
 		} catch (ClientProtocolException cpe) {
@@ -196,7 +193,7 @@ public class Resting {
 	 * @param inputParams
 	 * @throws RestingException 
 	 */
-	public HttpResponse PUT(String endpointUrl, Map<Object, Object> inputParams) throws RestingException {
+	public HttpResponse PUT(String endpointUrl, Object inputParams) throws RestingException {
 		logger.debug("Inside PUT!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -209,7 +206,7 @@ public class Resting {
 	 * @param inputParams
 	 * @throws RestingException 
 	 */
-	public HttpResponse PUT(String endpointUrl, Map<Object, Object> inputParams, RestingRequestConfig config) throws RestingException {
+	public HttpResponse PUT(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside PUT!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -220,8 +217,7 @@ public class Resting {
 
 			HttpPut put = new HttpPut(baseURI + endpointUrl);
 			put.setConfig(requestConfig);
-			StringEntity entity = new StringEntity(new JSONObject(inputParams).toJSONString());
-			put.setEntity(entity);
+			put.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
 			
 			return httpClient.execute(put);
 		} catch (ClientProtocolException cpe) {
