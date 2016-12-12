@@ -53,4 +53,32 @@ public class RestingUtil {
 		return headerArr;
 	}
 	
+	/**
+	 * Converts HashMap to XML
+	 * 
+	 * @param map
+	 * @param root
+	 * @return
+	 */
+	public static String covertMapToXML(Map<?, ?> map, String root) {
+        StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        sb.append("<");
+        sb.append(root);
+        sb.append(">");
+        for (Map.Entry<?, ?> e : map.entrySet()) {
+            sb.append("<");
+            sb.append(e.getKey());
+            sb.append(">");
+
+            sb.append(e.getValue());
+            sb.append("</");
+            sb.append(e.getKey());
+            sb.append(">");
+        }
+        sb.append("</");
+        sb.append(root);
+        sb.append(">");
+        return sb.toString();
+    }
+	
 }

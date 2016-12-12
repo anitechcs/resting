@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.anitech.resting.config.RestingRequestConfig;
 import com.anitech.resting.exception.RestingException;
-import com.anitech.resting.service.RequestDataMassager;
+import com.anitech.resting.request.RequestDataMassager;
 import com.anitech.resting.util.RestingUtil;
 
 /**
@@ -26,18 +26,17 @@ import com.anitech.resting.util.RestingUtil;
  *
  */
 public class Resting {
-	
+
 	private static final Logger logger = LogManager.getLogger(Resting.class);
-	
+
 	private static Resting instance = null;
-	
+
 	private static String baseURI = "";
-	
+
 	private static boolean enableMetrics = false;
-	
+
 	private static CloseableHttpClient httpClient;
-	
-	
+
 	// Getters and Setters
 	public static String getBaseURI() {
 		return baseURI;
@@ -46,7 +45,7 @@ public class Resting {
 	public static void setBaseURI(String baseURI) {
 		Resting.baseURI = baseURI;
 	}
-	
+
 	public static boolean isEnableMetrics() {
 		return enableMetrics;
 	}
@@ -54,7 +53,6 @@ public class Resting {
 	public static void setEnableMetrics(boolean enableMetrics) {
 		Resting.enableMetrics = enableMetrics;
 	}
-	
 
 	/**
 	 * Public API to get singleton Resting interface
@@ -71,11 +69,11 @@ public class Resting {
 		}
 		return instance;
 	}
-	
+
 	protected Resting() {
 		// Exists only to defeat instantiation.
 	}
-	
+
 	/**
 	 * Fluent API to configure Resting instance with base URI
 	 * 
@@ -86,7 +84,7 @@ public class Resting {
 		Resting.baseURI = baseURI;
 		return instance;
 	}
-	
+
 	/**
 	 * Fluent API to configure Resting instance Metrics enabled
 	 * 
@@ -109,7 +107,7 @@ public class Resting {
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
 		return GET(endpointUrl, config);
 	}
-	
+
 	/**
 	 * Executes a GET request
 	 * 
@@ -123,14 +121,14 @@ public class Resting {
 		httpClient = HttpClients.createDefault();
 		try {
 			RequestConfig requestConfig = RequestConfig.custom()
-				    .setSocketTimeout(config.getSocketTimeout())
-				    .setConnectTimeout(config.getConnectTimeout())
-				    .build();
+					.setSocketTimeout(config.getSocketTimeout())
+					.setConnectTimeout(config.getConnectTimeout())
+					.build();
 
 			HttpGet get = new HttpGet(baseURI + endpointUrl);
 			get.setConfig(requestConfig);
 			get.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
-			
+
 			return httpClient.execute(get);
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
@@ -140,7 +138,7 @@ public class Resting {
 			throw new RestingException(ioe);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param endpointUrl
@@ -154,7 +152,7 @@ public class Resting {
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
 		return POST(endpointUrl, inputParams, config);
 	}
-	
+
 	/**
 	 * 
 	 * @param endpointUrl
@@ -168,15 +166,15 @@ public class Resting {
 		httpClient = HttpClients.createDefault();
 		try {
 			RequestConfig requestConfig = RequestConfig.custom()
-				    .setSocketTimeout(config.getSocketTimeout())
-				    .setConnectTimeout(config.getConnectTimeout())
-				    .build();
+					.setSocketTimeout(config.getSocketTimeout())
+					.setConnectTimeout(config.getConnectTimeout())
+					.build();
 
 			HttpPost post = new HttpPost(baseURI + endpointUrl);
 			post.setConfig(requestConfig);
 			post.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
 			post.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
-			
+
 			return httpClient.execute(post);
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
@@ -184,14 +182,14 @@ public class Resting {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			throw new RestingException(ioe);
-		} 
+		}
 	}
 
 	/**
 	 * 
 	 * @param endpointUrl
 	 * @param inputParams
-	 * @throws RestingException 
+	 * @throws RestingException
 	 */
 	public HttpResponse PUT(String endpointUrl, Object inputParams) throws RestingException {
 		logger.debug("Inside PUT!");
@@ -199,26 +197,26 @@ public class Resting {
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
 		return PUT(endpointUrl, inputParams, config);
 	}
-	
+
 	/**
 	 * 
 	 * @param endpointUrl
 	 * @param inputParams
-	 * @throws RestingException 
+	 * @throws RestingException
 	 */
 	public HttpResponse PUT(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside PUT!");
 		httpClient = HttpClients.createDefault();
 		try {
 			RequestConfig requestConfig = RequestConfig.custom()
-				    .setSocketTimeout(config.getSocketTimeout())
-				    .setConnectTimeout(config.getConnectTimeout())
-				    .build();
+					.setSocketTimeout(config.getSocketTimeout())
+					.setConnectTimeout(config.getConnectTimeout())
+					.build();
 
 			HttpPut put = new HttpPut(baseURI + endpointUrl);
 			put.setConfig(requestConfig);
 			put.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
-			
+
 			return httpClient.execute(put);
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
@@ -226,13 +224,13 @@ public class Resting {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			throw new RestingException(ioe);
-		} 
+		}
 	}
 
 	/**
 	 * 
 	 * @param endpointUrl
-	 * @throws RestingException 
+	 * @throws RestingException
 	 */
 	public HttpResponse DELETE(String endpointUrl) throws RestingException {
 		logger.debug("Inside DELETE!");
@@ -240,25 +238,25 @@ public class Resting {
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
 		return DELETE(endpointUrl, config);
 	}
-	
+
 	/**
 	 * @param endpointUrl
 	 * @param config
-	 * @throws RestingException 
+	 * @throws RestingException
 	 */
 	public HttpResponse DELETE(String endpointUrl, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside DELETE!");
 		httpClient = HttpClients.createDefault();
 		try {
 			RequestConfig requestConfig = RequestConfig.custom()
-				    .setSocketTimeout(config.getSocketTimeout())
-				    .setConnectTimeout(config.getConnectTimeout())
-				    .build();
+					.setSocketTimeout(config.getSocketTimeout())
+					.setConnectTimeout(config.getConnectTimeout())
+					.build();
 
 			HttpDelete delete = new HttpDelete(baseURI + endpointUrl);
 			delete.setConfig(requestConfig);
 			delete.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
-			
+
 			return httpClient.execute(delete);
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
@@ -266,7 +264,7 @@ public class Resting {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			throw new RestingException(ioe);
-		} 
+		}
 	}
-	
+
 }

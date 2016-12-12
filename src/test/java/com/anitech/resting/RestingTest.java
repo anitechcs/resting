@@ -1,5 +1,9 @@
 package com.anitech.resting;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +79,31 @@ public class RestingTest {
 	}
 	
 	@Test
+	public void testRestingPOSTWithFile() throws RestingException {
+		File jsonFile = new File(getClass().getClassLoader().getResource("input.json").getFile());
+		HttpResponse res = resting.POST("/posts", jsonFile);
+		logger.info(res.getStatusLine());
+		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
+	}
+	
+	@Test
+	public void testRestingPOSTWithInputStream() throws RestingException {
+		InputStream jsonFile = getClass().getClassLoader().getResourceAsStream("input.json");
+		HttpResponse res = resting.POST("/posts", jsonFile);
+		logger.info(res.getStatusLine());
+		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
+	}
+	
+	@Test
+	public void testRestingPOSTWithFileInputStream() throws RestingException, FileNotFoundException {
+		File file = new File(getClass().getClassLoader().getResource("input.json").getFile());
+		FileInputStream jsonFile = new FileInputStream(file);
+		HttpResponse res = resting.POST("/posts", jsonFile);
+		logger.info(res.getStatusLine());
+		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
+	}
+	
+	@Test
 	public void testRestingPOSTWithConfig() throws RestingException {
 		
 		RestingRequestConfig config = new RestingRequestConfig();
@@ -83,6 +112,37 @@ public class RestingTest {
 		config.setHeaders(headers);
 		
 		HttpResponse res = resting.POST("/posts", inputs, config);
+		logger.info(res.getStatusLine());
+		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
+	}
+	
+	@Test
+	public void testRestingPOSTWithConfigXML() throws RestingException {
+		
+		RestingRequestConfig config = new RestingRequestConfig();
+		config.setConnectTimeout(5000);
+		config.setSocketTimeout(5000);
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("Content-Type", "application/xml");
+		config.setHeaders(header);
+		
+		HttpResponse res = resting.POST("/posts", inputs, config);
+		logger.info(res.getStatusLine());
+		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
+	}
+	
+	@Test
+	public void testRestingPOSTWithConfigXMLFile() throws RestingException {
+		
+		RestingRequestConfig config = new RestingRequestConfig();
+		config.setConnectTimeout(5000);
+		config.setSocketTimeout(5000);
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("Content-Type", "application/xml");
+		config.setHeaders(header);
+		
+		File xmlFile = new File(getClass().getClassLoader().getResource("input.xml").getFile());
+		HttpResponse res = resting.POST("/posts", xmlFile, config);
 		logger.info(res.getStatusLine());
 		Assert.assertEquals(201, res.getStatusLine().getStatusCode());
 	}
