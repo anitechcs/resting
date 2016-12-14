@@ -1,4 +1,4 @@
-package com.anitech.resting.request;
+package com.anitech.resting.http.request;
 
 /**
  * Service request builder utility

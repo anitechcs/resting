@@ -11,12 +11,12 @@
    * Fluent API
    * Secured API call support(Basic Auth + Token)
    * Request builder and JSON File payload support
-   * Stateless and Statefull(Cookie) Service invocation 
+   * State-less and State-full(Cookie) Service invocation 
    * JSON and XML Service support
    * BDD Style Fluent API
 
 
-## Installation:
+## Installation
 
 `Resting` is a java library, So you can download the `resting-1.x.x.jar` and directly consume in your application however we are recommending to use a build system like Maven or Gradle. Please refer to below sections based on your build system: 
 
@@ -50,7 +50,7 @@
 	- json-simple
 	
 
-## Getting Started:
+## Getting Started
 
 Once you have resting in your classpath (Refer #Installation section), you are ready to take it for a spin. You need to get a handle to `Resting` instance first like below:
 
@@ -68,6 +68,7 @@ Also you can configure few thing with provided fluent API like below:
 
 You can call any REST service through Resting like below:
 
+### Request Config (Optional)
 ```
 RestingRequestConfig config = new RestingRequestConfig();
 config.setConnectTimeout(5000);
@@ -77,33 +78,58 @@ config.setHeaders(headers);
 ### GET
 ```
 // GET Without Extra Config
-HttpResponse res = resting.GET("/posts/1");
+RestingResponse res = resting.GET("/posts/1");
+JSONObject json = (JSONObject) res.getBody();
 	
 // GET With Extra Config
-HttpResponse res = resting.GET("/posts/1", config);
+RestingResponse res = resting.GET("/posts/1", config);
+JSONObject json = (JSONObject) res.getBody();
 ```
 ### POST
 ```	
 // POST Without Extra Config
-HttpResponse res = resting.POST("/posts", inputs);
+RestingResponse res = resting.POST("/posts", inputs);
+JSONObject json = (JSONObject) res.getBody();
 	
 // POST With Extra Config	
-HttpResponse res = resting.POST("/posts", inputs, config);
+RestingResponse res = resting.POST("/posts", inputs, config);
+JSONObject json = (JSONObject) res.getBody();
 ```
 ### PUT
 ```
 // PUT Without Extra Config
-HttpResponse res = resting.PUT("/posts/1", inputs);
+RestingResponse res = resting.PUT("/posts/1", inputs);
+JSONObject json = (JSONObject) res.getBody();
 	
 // PUT With Extra Config	
-HttpResponse res = resting.PUT("/posts/1", inputs, config);
+RestingResponse res = resting.PUT("/posts/1", inputs, config);
+JSONObject json = (JSONObject) res.getBody();
 ```
 ### DELETE
 ```
 // DELETE Without Extra Config
-HttpResponse res = resting.DELETE("/posts/1");
+RestingResponse res = resting.DELETE("/posts/1");
+JSONObject json = (JSONObject) res.getBody();
 	
 // DELETE With Extra Config
-HttpResponse res = resting.DELETE("/posts/1", config);
+RestingResponse res = resting.DELETE("/posts/1", config);
+JSONObject json = (JSONObject) res.getBody();
 ```
-		
+
+### Supported Payload(Input Data) Formats
+For `POST` and `PUT` services you need to pass payload to the service. You can see syntax wise we are accepting `Object` type which means you can pass your data in any supported format below and `Resting` will take care of the rest.
+
+	- Map<?, ?>
+	- JSON String (e.g. {"name": "Tapas", "country": "India"})
+	- JSONObject
+	- StringBuffer
+	- StringBuilder
+	- File (e.g. new File("/data/input.json"))
+	- InputStream
+	- FileInputStream	
+
+If you still need more input format support, Please let us know!
+
+
+	
+	

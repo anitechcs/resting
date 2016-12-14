@@ -16,7 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.anitech.resting.config.RestingRequestConfig;
 import com.anitech.resting.exception.RestingException;
-import com.anitech.resting.request.RequestDataMassager;
+import com.anitech.resting.http.request.RequestDataMassager;
+import com.anitech.resting.http.response.RestingResponse;
 import com.anitech.resting.util.RestingUtil;
 
 /**
@@ -101,7 +102,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse GET(String endpointUrl) throws RestingException {
+	public RestingResponse GET(String endpointUrl) throws RestingException {
 		logger.debug("Inside GET!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -116,7 +117,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse GET(String endpointUrl, RestingRequestConfig config) throws RestingException {
+	public RestingResponse GET(String endpointUrl, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside GET!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -129,7 +130,9 @@ public class Resting {
 			get.setConfig(requestConfig);
 			get.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
 
-			return httpClient.execute(get);
+			HttpResponse res = httpClient.execute(get);
+			RestingResponse response = new RestingResponse(res);
+			return response;
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
 			throw new RestingException(cpe);
@@ -146,7 +149,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse POST(String endpointUrl, Object inputParams) throws RestingException {
+	public RestingResponse POST(String endpointUrl, Object inputParams) throws RestingException {
 		logger.debug("Inside POST!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -161,7 +164,7 @@ public class Resting {
 	 * @return
 	 * @throws RestingException
 	 */
-	public HttpResponse POST(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
+	public RestingResponse POST(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside POST!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -175,7 +178,9 @@ public class Resting {
 			post.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
 			post.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
 
-			return httpClient.execute(post);
+			HttpResponse res = httpClient.execute(post);
+			RestingResponse response = new RestingResponse(res);
+			return response;
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
 			throw new RestingException(cpe);
@@ -191,7 +196,7 @@ public class Resting {
 	 * @param inputParams
 	 * @throws RestingException
 	 */
-	public HttpResponse PUT(String endpointUrl, Object inputParams) throws RestingException {
+	public RestingResponse PUT(String endpointUrl, Object inputParams) throws RestingException {
 		logger.debug("Inside PUT!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -204,7 +209,7 @@ public class Resting {
 	 * @param inputParams
 	 * @throws RestingException
 	 */
-	public HttpResponse PUT(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
+	public RestingResponse PUT(String endpointUrl, Object inputParams, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside PUT!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -217,7 +222,9 @@ public class Resting {
 			put.setConfig(requestConfig);
 			put.setEntity(RequestDataMassager.massageRequestData(inputParams, config));
 
-			return httpClient.execute(put);
+			HttpResponse res = httpClient.execute(put);
+			RestingResponse response = new RestingResponse(res);
+			return response;
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
 			throw new RestingException(cpe);
@@ -232,7 +239,7 @@ public class Resting {
 	 * @param endpointUrl
 	 * @throws RestingException
 	 */
-	public HttpResponse DELETE(String endpointUrl) throws RestingException {
+	public RestingResponse DELETE(String endpointUrl) throws RestingException {
 		logger.debug("Inside DELETE!");
 		httpClient = HttpClients.createDefault();
 		RestingRequestConfig config = RestingUtil.getDefaultRequestConfig();
@@ -244,7 +251,7 @@ public class Resting {
 	 * @param config
 	 * @throws RestingException
 	 */
-	public HttpResponse DELETE(String endpointUrl, RestingRequestConfig config) throws RestingException {
+	public RestingResponse DELETE(String endpointUrl, RestingRequestConfig config) throws RestingException {
 		logger.debug("Inside DELETE!");
 		httpClient = HttpClients.createDefault();
 		try {
@@ -257,7 +264,9 @@ public class Resting {
 			delete.setConfig(requestConfig);
 			delete.setHeaders(RestingUtil.getHeadersFromRequest(config.getHeaders()));
 
-			return httpClient.execute(delete);
+			HttpResponse res = httpClient.execute(delete);
+			RestingResponse response = new RestingResponse(res);
+			return response;
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
 			throw new RestingException(cpe);

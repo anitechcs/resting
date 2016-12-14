@@ -1,4 +1,4 @@
-package com.anitech.resting.response;
+package com.anitech.resting.http.response;
 
 /**
  * Response Intercepter
