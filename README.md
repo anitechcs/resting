@@ -119,17 +119,19 @@ JSONObject json = (JSONObject) res.getBody();
 ### Supported Payload(Input Data) Formats
 For `POST` and `PUT` services you need to pass payload to the service. You can see syntax wise we are accepting `Object` type which means you can pass your data in any supported format below and `Resting` will take care of the rest.
 
-	- Map<?, ?>
-	- JSON String (e.g. {"name": "Tapas", "country": "India"})
-	- JSONObject
-	- StringBuffer
-	- StringBuilder
-	- File (e.g. new File("/data/input.json"))
-	- InputStream
-	- FileInputStream	
+- Map<?, ?>
+- JSON String (e.g. {"name": "Tapas", "country": "India"})
+- JSONObject
+- StringBuffer
+- StringBuilder
+- File (e.g. new File("/data/input.json"))
+- InputStream
+- FileInputStream	
 
 If you still need more input format support, Please let us know!
 
+### Got a feedback?
+We really appriciate your feedback and looking forward to make `Resting` better and better. Please raise a defect or pull request if you want to discuss anything with us regarding `Resting`
 
 	
 	
