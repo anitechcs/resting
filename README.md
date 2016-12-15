@@ -9,7 +9,7 @@
 
    * Simple and Easy to use
    * Fluent API 
-   * Config over configuration
+   * Convention over Configuration
    * Secured API call support(Basic Auth + Token)
    * Request builder and JSON File payload support
    * State-less and State-full(Cookie) Service invocation 
@@ -54,7 +54,7 @@
 
 ## Getting Started
 
-Once you have resting in your classpath (Refer #Installation section), you are ready to take it for a spin. You need to get a handle to `Resting` instance first:
+Once you have resting in your classpath (Refer [#Installation section](https://github.com/anitechcs/resting#installation)), you are ready to take it for a spin. You need to get a handle to `Resting` instance first:
 
 	
 	Resting resting = Resting.getInstance();
@@ -64,10 +64,10 @@ Also you can configure few things globally with provided fluent API like below:
 	
 	Resting	resting = Resting
 					.getInstance()
-					.enableMetrics() // enable metrics
-					.enableProcessingHooks() //enables pre and post processing hooks
-					.globalRequestConfig(globalConfig) // global request configuration
-					.baseURI("https://jsonplaceholder.typicode.com"); // base URL
+					.enableMetrics()  //enable metrics
+					.enableProcessingHooks()  //enables pre and post processing hooks
+					.globalRequestConfig(globalConfig)  //global request configuration
+					.baseURI("https://jsonplaceholder.typicode.com");  //set base URL
 	
 
 Enjoy calling your REST services through `Resting` with less code and easier API:
