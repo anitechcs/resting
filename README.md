@@ -8,12 +8,14 @@
 `Resting` is a simple and light weight library for accessing REST API with little fuss. You can use `Resting` as a REST client for consuming REST services in your application or You can use it for end-to-end testing of your REST services. The main features are:
 
    * Simple and Easy to use
-   * Fluent API
+   * Fluent API 
+   * Config over configuration
    * Secured API call support(Basic Auth + Token)
    * Request builder and JSON File payload support
    * State-less and State-full(Cookie) Service invocation 
-   * JSON and XML Service support
+   * REST JSON and XML Service support
    * BDD Style Fluent API
+   * Less code, Less Bug
 
 
 ## Installation
@@ -45,32 +47,34 @@
 	Add `resting-0.0.1-SNAPSHORT.jar` to your classpath along with following dependent jars:
 
 	- JUnit
-	- Log4j2
+	- Log4J2
 	- Apache HTTP Client
-	- json-simple
+	- Json-Simple
 	
 
 ## Getting Started
 
-Once you have resting in your classpath (Refer #Installation section), you are ready to take it for a spin. You need to get a handle to `Resting` instance first like below:
+Once you have resting in your classpath (Refer #Installation section), you are ready to take it for a spin. You need to get a handle to `Resting` instance first:
 
 	
 	Resting resting = Resting.getInstance();
 	
-Also you can configure few thing with provided fluent API like below:
+Also you can configure few things globally with provided fluent API like below:
 	
 	
 	Resting	resting = Resting
 					.getInstance()
-					.enableMetrics()
-					.baseURI("https://jsonplaceholder.typicode.com");
+					.enableMetrics() // enable metrics
+					.enableProcessingHooks() //enables pre and post processing hooks
+					.globalRequestConfig(globalConfig) // global request configuration
+					.baseURI("https://jsonplaceholder.typicode.com"); // base URL
 	
 
-You can call any REST service through Resting like below:
+Enjoy calling your REST services through `Resting` with less code and easier API:
 
-### Request Config (Optional)
+### RequestConfig (Optional)
 ```
-RestingRequestConfig config = new RestingRequestConfig();
+RequestConfig config = new RequestConfig();
 config.setConnectTimeout(5000);
 config.setSocketTimeout(5000);
 config.setHeaders(headers);
@@ -80,6 +84,10 @@ config.setHeaders(headers);
 // GET Without Extra Config
 RestingResponse res = resting.GET("/posts/1");
 JSONObject json = (JSONObject) res.getBody();
+
+// GET Without Extra Config - Multiple records
+RestingResponse res = resting.GET("/posts");
+JSONArray jsonArr = (JSONArray) res.getBody();
 	
 // GET With Extra Config
 RestingResponse res = resting.GET("/posts/1", config);
@@ -116,7 +124,7 @@ RestingResponse res = resting.DELETE("/posts/1", config);
 JSONObject json = (JSONObject) res.getBody();
 ```
 
-### Supported Payload(Input Data) Formats
+### Supported Payload (Input Data) Formats
 For `POST` and `PUT` services you need to pass payload to the service. You can see syntax wise we are accepting `Object` type which means you can pass your data in any supported format below and `Resting` will take care of the rest.
 
 - Map<?, ?>

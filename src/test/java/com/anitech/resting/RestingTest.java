@@ -1,3 +1,18 @@
+/**
+ * Copyright 2016-2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.anitech.resting;
 
 import java.io.File;
@@ -17,8 +32,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.anitech.resting.config.RestingRequestConfig;
 import com.anitech.resting.exception.RestingException;
+import com.anitech.resting.http.request.RequestConfig;
 import com.anitech.resting.http.response.RestingResponse;
 
 /**
@@ -39,10 +54,6 @@ public class RestingTest {
 	@BeforeClass
 	public static void setupTestEnv() {
 		logger.info("Initializing setupTestEnv!");
-		resting = Resting
-					.getInstance()
-					.enableMetrics()
-					.baseURI("https://jsonplaceholder.typicode.com");
 		
 		inputs = new HashMap<Object, Object>();
 		inputs.put("name", "Tapas");
@@ -50,6 +61,19 @@ public class RestingTest {
 		headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
 		headers.put("Accept", "*");
+		
+		RequestConfig globalConfig = new RequestConfig();
+		globalConfig.setConnectTimeout(1000);
+		globalConfig.setSocketTimeout(1000);
+		globalConfig.setHeaders(headers);
+		
+		resting = Resting
+					.getInstance()
+					.enableMetrics()
+					.enableProcessingHooks()
+					.globalRequestConfig(globalConfig)
+					.baseURI("https://jsonplaceholder.typicode.com");
+		
 	}
 
 	@Test
@@ -66,7 +90,7 @@ public class RestingTest {
 	@Test
 	public void testRestingGETWithConfig() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		config.setHeaders(headers);
@@ -114,7 +138,7 @@ public class RestingTest {
 	@Test
 	public void testRestingPOSTWithConfig() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		config.setHeaders(headers);
@@ -127,7 +151,7 @@ public class RestingTest {
 	@Test
 	public void testRestingPOSTWithConfigXML() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		Map<String, String> header = new HashMap<String, String>();
@@ -142,7 +166,7 @@ public class RestingTest {
 	@Test
 	public void testRestingPOSTWithConfigXMLFile() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		Map<String, String> header = new HashMap<String, String>();
@@ -165,7 +189,7 @@ public class RestingTest {
 	@Test
 	public void testRestingPUTWithConfig() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		config.setHeaders(headers);
@@ -185,7 +209,7 @@ public class RestingTest {
 	@Test
 	public void testRestingDELETEWithConfig() throws RestingException {
 		
-		RestingRequestConfig config = new RestingRequestConfig();
+		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
 		config.setHeaders(headers);

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2016-2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.anitech.resting.util;
 
 import java.util.HashMap;
@@ -8,7 +23,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.anitech.resting.config.RestingRequestConfig;
+import com.anitech.resting.http.request.RequestConfig;
 
 /**
  * Resting Utility class
@@ -25,11 +40,11 @@ public class RestingUtil {
 	 * 
 	 * @return RestingRequestConfig
 	 */
-	public static RestingRequestConfig getDefaultRequestConfig() {
+	public static RequestConfig getDefaultRequestConfig() {
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
 		
-		RestingRequestConfig reqConfig = new RestingRequestConfig();
+		RequestConfig reqConfig = new RequestConfig();
 		reqConfig.setHeaders(headers);
 		
 		return reqConfig;
@@ -42,6 +57,10 @@ public class RestingUtil {
 	 * @return
 	 */
 	public static Header[] getHeadersFromRequest(Map<String, String> headers) {
+		if(headers == null) {
+			return new Header[0];
+		}
+		
 		Header[] headerArr = new Header[headers.size()];
 		int index = 0;
 		for (String key: headers.keySet()) {
@@ -51,6 +70,34 @@ public class RestingUtil {
 			++index;
 		}
 		return headerArr;
+	}
+	
+	/**
+	 * Builds the final RequestConfig object by combining global and service level config
+	 * 
+	 * @param globalReqConfig
+	 * @param reqConfig
+	 * @return
+	 */
+	public static RequestConfig overrideGlobalRequestConfig(RequestConfig globalReqConfig, RequestConfig reqConfig) {
+		// No global config available
+		if(globalReqConfig == null) {
+			return reqConfig;
+		}
+		
+		if(reqConfig.getConnectTimeout() > -1) {
+			globalReqConfig.setConnectTimeout(reqConfig.getConnectTimeout());
+		}
+		
+		if(reqConfig.getSocketTimeout() > -1) {
+			globalReqConfig.setSocketTimeout(reqConfig.getSocketTimeout());
+		}
+
+		if(reqConfig.getHeaders() != null && !reqConfig.getHeaders().isEmpty()) {
+			globalReqConfig.setHeaders(reqConfig.getHeaders());
+		}
+		
+		return globalReqConfig;
 	}
 	
 	/**
