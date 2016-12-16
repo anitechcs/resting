@@ -3,6 +3,7 @@
   <groupId>com.anitechcs</groupId>
   <artifactId>resting</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   
   <name>resting</name>
   <description>Easy REST API testing library</description>
