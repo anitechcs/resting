@@ -72,6 +72,14 @@
 	</dependency>
   </dependencies>
   
+  <distributionManagement>
+	  <!-- Repository for snapshots -->
+	  <repository>
+	      <id>ossrh</id>
+	      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </repository>
+  </distributionManagement>
+  
   <build>
     <plugins>
         <plugin>
