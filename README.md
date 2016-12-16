@@ -28,7 +28,7 @@
 	
 	```
 	<dependency>
-	    <groupId>com.anitech</groupId>
+	    <groupId>com.anitechcs</groupId>
 	    <artifactId>resting</artifactId>
 	    <version>0.0.1-SNAPSHORT</version>
 	</dependency>

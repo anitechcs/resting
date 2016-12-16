@@ -1,12 +1,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.anitech</groupId>
+  <groupId>com.anitechcs</groupId>
   <artifactId>resting</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
   <name>resting</name>
   <description>Easy REST API testing library</description>
+  <url>http://www.anitechcs.com</url>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+ 
+  <scm>
+  	<connection>scm:git:git@github.com:anitechcs/resting.git</connection>
+  	<developerConnection>scm:git:git@github.com:anitechcs/resting.git</developerConnection>
+    <url>git@github.com:anitechcs/resting.git</url>
+  </scm>
+  
+  <developers>
+      <developer>
+          <name>Tapas Jena</name>
+          <email>tapas.friends@gmail.com</email>
+          <organization>Anitech Consulting Services Pvt Ltd.</organization>
+          <organizationUrl>http://www.anitechcs.com</organizationUrl>
+      </developer>
+  </developers>
   
   <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   	<junit-version>4.12</junit-version>
   	<json-version>1.1.1</json-version>
   	<httpclient.version>4.5.2</httpclient.version>
@@ -43,4 +70,64 @@
 	    <version>${log4j2.version}</version>
 	</dependency>
   </dependencies>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>sign-artifacts</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>sign</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.3</version>
+            <extensions>true</extensions>
+            <configuration>
+                <serverId>ossrh</serverId>
+                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                <stagingProfileId>7edbe315063867</stagingProfileId>
+                <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>attach-sources</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+        </plugin>
+      </plugins>
+    </build>
 </project>
