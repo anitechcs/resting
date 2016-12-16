@@ -53,7 +53,7 @@ public class RequestDataMassager {
 	public static StringEntity massageRequestData(Object inputData, RequestConfig config) throws RestingException {
 		logger.debug("Inside massageRequestData!");
 		StringEntity stringEntity = null;
-		String contentType = (config != null && config.getHeaders() != null)?config.getHeaders().get("Content-Type"):RestingConstants.CONTENT_TYPE_APPLICATION_JSON;
+		String contentType = (config != null && config.getHeader("Content-Type") != null)?config.getHeader("Content-Type").getValue():RestingConstants.CONTENT_TYPE_APPLICATION_JSON;
 		//TODO: Support more Content-Types like text/plain
 		if(contentType.equalsIgnoreCase(RestingConstants.CONTENT_TYPE_APPLICATION_JSON)) {
 			stringEntity = massageJSONData(inputData);

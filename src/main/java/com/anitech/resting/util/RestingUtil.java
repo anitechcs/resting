@@ -15,14 +15,13 @@
  */
 package com.anitech.resting.util;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.anitech.resting.http.Header;
 import com.anitech.resting.http.request.RequestConfig;
 
 /**
@@ -34,15 +33,18 @@ import com.anitech.resting.http.request.RequestConfig;
 public class RestingUtil {
 	
 	private static final Logger logger = LogManager.getLogger(RestingUtil.class);
+	
 
 	/**
-	 * Returns default RestingRequestConfig object, Default content type is application/json
+	 * Returns default RequestConfig object, Default content type is application/json
 	 * 
-	 * @return RestingRequestConfig
+	 * @return RequestConfig
 	 */
 	public static RequestConfig getDefaultRequestConfig() {
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Content-Type", "application/json");
+		logger.debug("Inside getDefaultRequestConfig()");
+		Header[] headers = {
+			    new Header("Content-Type", "application/json")
+			};
 		
 		RequestConfig reqConfig = new RequestConfig();
 		reqConfig.setHeaders(headers);
@@ -54,19 +56,18 @@ public class RestingUtil {
 	 * Converts input headers map to http request header array
 	 * 
 	 * @param headers
-	 * @return
+	 * @return org.apache.http.Header
 	 */
-	public static Header[] getHeadersFromRequest(Map<String, String> headers) {
+	public static org.apache.http.Header[] getHeadersFromRequest(Header[] headers) {
+		logger.debug("Inside getHeadersFromRequest()");
 		if(headers == null) {
-			return new Header[0];
+			return new org.apache.http.Header[0];
 		}
 		
-		Header[] headerArr = new Header[headers.size()];
+		org.apache.http.Header[] headerArr = new org.apache.http.Header[headers.length];
 		int index = 0;
-		for (String key: headers.keySet()) {
-			String value = headers.get(key);
-			logger.debug(index+" - Header Key: " + key + ": Value: " + value);
-			headerArr[index] = new BasicHeader(key, value);
+		for (Header header: headers) {
+			headerArr[index] = new BasicHeader(header.getName(), header.getValue());
 			++index;
 		}
 		return headerArr;
@@ -77,9 +78,10 @@ public class RestingUtil {
 	 * 
 	 * @param globalReqConfig
 	 * @param reqConfig
-	 * @return
+	 * @return RequestConfig
 	 */
 	public static RequestConfig overrideGlobalRequestConfig(RequestConfig globalReqConfig, RequestConfig reqConfig) {
+		logger.debug("Inside overrideGlobalRequestConfig()");
 		// No global config available
 		if(globalReqConfig == null) {
 			return reqConfig;
@@ -93,7 +95,7 @@ public class RestingUtil {
 			globalReqConfig.setSocketTimeout(reqConfig.getSocketTimeout());
 		}
 
-		if(reqConfig.getHeaders() != null && !reqConfig.getHeaders().isEmpty()) {
+		if(reqConfig.getHeaders() != null) {
 			globalReqConfig.setHeaders(reqConfig.getHeaders());
 		}
 		
@@ -105,9 +107,10 @@ public class RestingUtil {
 	 * 
 	 * @param map
 	 * @param root
-	 * @return
+	 * @return String
 	 */
 	public static String covertMapToXML(Map<?, ?> map, String root) {
+		logger.debug("Inside covertMapToXML()");
         StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         sb.append("<");
         sb.append(root);

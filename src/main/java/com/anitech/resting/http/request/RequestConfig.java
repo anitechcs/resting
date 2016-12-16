@@ -15,8 +15,11 @@
  */
 package com.anitech.resting.http.request;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.anitech.resting.http.Header;
 
 /**
  * Request Configuration class for Resting library
@@ -26,11 +29,12 @@ import java.util.Map;
  */
 public class RequestConfig {
 
-	private Map<String, String> headers = new HashMap<String, String>();
+	private List<Header> headers = new ArrayList<Header>();
 	
 	private int socketTimeout = -1;
 	
 	private int connectTimeout = -1;
+	
 	
 	public int getSocketTimeout() {
 		return socketTimeout;
@@ -71,12 +75,47 @@ public class RequestConfig {
 		this.connectTimeout = connectTimeout;
 	}
 
-	public Map<String, String> getHeaders() {
-		return headers;
+	public Header[] getHeaders() {
+		Header[] headersArr = new Header[headers.size()];
+		return headers.toArray(headersArr);
 	}
 
-	public void setHeaders(Map<String, String> headers) {
-		this.headers = headers;
+	public void setHeaders(Header[] headers) {
+		this.headers = Arrays.asList(headers);
 	}
 	
+	/**
+	 * Returns respective Header
+	 * 
+	 * @param headerName
+	 * @return Header
+	 */
+	public Header getHeader(String headerName) {
+		for(Header header : headers ) {
+		    if(headerName.equals(header.getName())) {
+		    	return header;
+		    }
+		}
+		return null;
+	}
+
+	/**
+	 * Add the header
+	 * 
+	 * @param header
+	 */
+	public void addHeader(Header header) {
+		this.headers.add(header);
+	}
+	
+	/**
+	 * Adds to header array
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	public void addHeader(String name, String value) {
+		this.headers.add(new Header(name, value));
+	}
+
 }

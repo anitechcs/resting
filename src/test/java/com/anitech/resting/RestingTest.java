@@ -33,6 +33,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.anitech.resting.exception.RestingException;
+import com.anitech.resting.http.Header;
 import com.anitech.resting.http.request.RequestConfig;
 import com.anitech.resting.http.response.RestingResponse;
 
@@ -49,7 +50,11 @@ public class RestingTest {
 	
 	private static Resting resting;
 	private static Map<Object, Object> inputs;
-	private static Map<String, String> headers;
+	private static Header[] headers = {
+	    new Header("Content-Type", "application/json"),
+	    new Header("Accept", "application/xml,text/plain,application/json"),
+	    new Header("Connection", "keep-alive")
+	};
 	
 	@BeforeClass
 	public static void setupTestEnv() {
@@ -57,10 +62,6 @@ public class RestingTest {
 		
 		inputs = new HashMap<Object, Object>();
 		inputs.put("name", "Tapas");
-		
-		headers = new HashMap<String, String>();
-		headers.put("Content-Type", "application/json");
-		headers.put("Accept", "*");
 		
 		RequestConfig globalConfig = new RequestConfig();
 		globalConfig.setConnectTimeout(1000);
@@ -154,9 +155,7 @@ public class RestingTest {
 		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
-		Map<String, String> header = new HashMap<String, String>();
-		header.put("Content-Type", "application/xml");
-		config.setHeaders(header);
+		config.addHeader(new Header("Content-Type", "application/json"));
 		
 		RestingResponse res = resting.POST("/posts", inputs, config);
 		logger.info(res.getHttpStatus());
@@ -169,9 +168,7 @@ public class RestingTest {
 		RequestConfig config = new RequestConfig();
 		config.setConnectTimeout(5000);
 		config.setSocketTimeout(5000);
-		Map<String, String> header = new HashMap<String, String>();
-		header.put("Content-Type", "application/xml");
-		config.setHeaders(header);
+		config.addHeader("Content-Type", "application/xml");
 		
 		File xmlFile = new File(getClass().getClassLoader().getResource("input.xml").getFile());
 		RestingResponse res = resting.POST("/posts", xmlFile, config);

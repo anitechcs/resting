@@ -72,12 +72,23 @@ Also you can configure few things globally with provided fluent API like below:
 
 Enjoy calling your REST services through `Resting` with less code and easier API:
 
+### Header
+```
+Header[] headers = {
+    new Header("Content-Type", "application/json"),
+    new Header("Accept", "application/xml,text/plain,application/json"),
+    new Header("Connection", "keep-alive")
+};
+```
 ### RequestConfig (Optional)
 ```
 RequestConfig config = new RequestConfig();
 config.setConnectTimeout(5000);
 config.setSocketTimeout(5000);
+
 config.setHeaders(headers);
+config.addHeader(new Header("Content-Type", "application/json"));
+config.addHeader("Content-Type", "application/json");
 ```
 ### GET
 ```
@@ -137,6 +148,9 @@ For `POST` and `PUT` services you need to pass payload to the service. You can s
 - FileInputStream	
 
 If you still need more input format support, Please let us know!
+
+### Note
+> Make sure you are importing `RequestConfig` and `Header` from `Resting` library instead of Apache HTTP library
 
 ### Got a feedback?
 We really appriciate your feedback and looking forward to make `Resting` better and better. Please raise a defect or pull request if you want to discuss anything with us regarding `Resting`
