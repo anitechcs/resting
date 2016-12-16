@@ -1,6 +1,4 @@
 theme: jekyll-theme-architect
 show_downloads: true
-markdown: kramdown
-language: java
 zip_url: https://github.com/anitechcs/resting/zipball/master
 tar_url: https://github.com/anitechcs/resting/tarball/master
