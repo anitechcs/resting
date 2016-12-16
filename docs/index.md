@@ -26,13 +26,13 @@
 
 	You can add below dependency to your pom.xml
 	
-	```
+	`
 	<dependency>
 	    <groupId>com.anitech</groupId>
 	    <artifactId>resting</artifactId>
 	    <version>0.0.1-SNAPSHORT</version>
 	</dependency>
-	```
+	`
 	
 
 * Gradle
