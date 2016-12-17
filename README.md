@@ -44,7 +44,7 @@
 
 * Custom(Not recommended) 
 
-	Add `resting-0.0.1-SNAPSHORT.jar` to your classpath along with following dependent jars:
+	Add `resting-0.0.1-SNAPSHOT.jar` to your classpath along with following dependent jars:
 
 	- JUnit
 	- Log4J2
