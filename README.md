@@ -30,7 +30,7 @@
 	<dependency>
 	    <groupId>com.anitechcs</groupId>
 	    <artifactId>resting</artifactId>
-	    <version>0.0.1-SNAPSHORT</version>
+	    <version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	```
 	
