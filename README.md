@@ -42,9 +42,9 @@
 	```
 	
 
-* Custom(Not recommended) 
+* Custom (Not recommended) 
 
-	Add `resting-0.0.1-SNAPSHOT.jar` to your classpath along with following dependent jars:
+	Download [`resting-0.0.1-SNAPSHOT.jar`](https://github.com/anitechcs/resting/releases/download/v0.0.1-SNAPSHOT/resting-0.0.1-SNAPSHOT.jar) and add to your classpath along with following dependent library jars:
 
 	- JUnit
 	- Log4J2
