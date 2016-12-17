@@ -74,11 +74,15 @@ Enjoy calling your REST services through `Resting` with less code and easier API
 
 ### Header
 ```
+// Header array
 Header[] headers = {
     new Header("Content-Type", "application/json"),
     new Header("Accept", "application/xml,text/plain,application/json"),
     new Header("Connection", "keep-alive")
 };
+
+// Single Header
+Header header = new Header("Content-Type", "application/json");
 ```
 ### RequestConfig (Optional)
 ```
@@ -87,6 +91,7 @@ config.setConnectTimeout(5000);
 config.setSocketTimeout(5000);
 
 config.setHeaders(headers);
+config.addHeader(header);
 config.addHeader(new Header("Content-Type", "application/json"));
 config.addHeader("Content-Type", "application/json");
 ```
