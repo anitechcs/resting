@@ -36,6 +36,7 @@
 	
 
 * Gradle
+	
 	You can add below dependency to your `build.gradle` file:
 	
 	```
