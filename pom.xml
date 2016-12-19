@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.anitechcs</groupId>
   <artifactId>resting</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>jar</packaging>
   
   <name>resting</name>
@@ -73,10 +73,15 @@
   </dependencies>
   
   <distributionManagement>
-	  <!-- Repository for snapshots -->
-	  <repository>
-	      <id>ossrh</id>
+	  <snapshotRepository>
+	      <id>nexus-snapshots</id>
+	      <name>sonatype-nexus-snapshots</name>
 	      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	  <repository>
+	      <id>nexus-releases</id>
+	      <name>Nexus Release Repository</name>
+	      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 	  </repository>
   </distributionManagement>
   
@@ -111,7 +116,7 @@
 	            <version>1.6.3</version>
 	            <extensions>true</extensions>
 	            <configuration>
-	                <serverId>ossrh</serverId>
+	                <serverId>nexus-snapshots</serverId>
 	                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
 	                <stagingProfileId>7edbe315063867</stagingProfileId>
 	                <autoReleaseAfterClose>true</autoReleaseAfterClose>

@@ -20,25 +20,28 @@
 
 ## Installation
 
-`Resting` is a java library, So you can download the `resting-1.x.x.jar` and directly consume in your application however we are recommending to use a build system like Maven or Gradle. Please refer to below sections based on your build system: 
+`Resting` is a java library, So you can download the `resting-x.x.x.jar` and directly consume in your application however we are recommending to use a build system like Maven or Gradle. Please refer to below sections based on your build system: 
 
 * Maven
 
-	You can add below dependency to your pom.xml
+	You can add below dependency to your `pom.xml`:
 	
 	```
 	<dependency>
 	    <groupId>com.anitechcs</groupId>
 	    <artifactId>resting</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
+	    <version>0.0.1</version>
 	</dependency>
 	```
 	
 
 * Gradle
+	You can add below dependency to your `build.gradle` file:
 	
 	```
-	Coming Soon
+	dependencies {
+	    compile group: 'com.anitechcs', name: 'resting', version: '0.0.1'
+	}
 	```
 	
 
