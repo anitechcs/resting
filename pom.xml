@@ -116,9 +116,9 @@
 	            <version>1.6.3</version>
 	            <extensions>true</extensions>
 	            <configuration>
-	                <serverId>nexus-snapshots</serverId>
+	                <serverId>nexus-releases</serverId>
 	                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-	                <stagingProfileId>7edbe315063867</stagingProfileId>
+	                <stagingProfileId>37e39bda0e7808</stagingProfileId>
 	                <autoReleaseAfterClose>true</autoReleaseAfterClose>
 	            </configuration>
 	        </plugin>
@@ -154,5 +154,5 @@
 	      </plugins>
 	    </build>
     </profile>
-  </profiles>   
+  </profiles> 
 </project>

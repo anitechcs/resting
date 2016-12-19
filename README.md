@@ -43,6 +43,12 @@
 	dependencies {
 	    compile group: 'com.anitechcs', name: 'resting', version: '0.0.1'
 	}
+	
+	Or in Short
+	
+	dependencies {
+		compile 'com.anitechcs:resting:0.0.1'
+	}
 	```
 	
 
